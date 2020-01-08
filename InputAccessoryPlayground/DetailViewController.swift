@@ -5,11 +5,10 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
-
+class DetailViewController:UITableViewController {
+    
     @IBOutlet weak var detailDescriptionLabel: UILabel!
-
-
+        
     func configureView() {
         // Update the user interface for the detail item.
         if let detail = detailItem {
@@ -18,20 +17,34 @@ class DetailViewController: UIViewController {
             }
         }
     }
-
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    override var inputAccessoryView: UIView? {
+        return self.textField
+    }
+    
+    lazy var textField: UITextField = {
+        let textField = UITextField(frame: .zero)
+        textField.borderStyle = .roundedRect
+        textField.backgroundColor = .green
+        textField.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return textField
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        configureView()
+        //        configureView()
+        tableView.keyboardDismissMode = .interactive
     }
-
+    
     var detailItem: NSDate? {
         didSet {
             // Update the view.
             configureView()
         }
     }
-
-
 }
-
